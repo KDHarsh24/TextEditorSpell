@@ -6,7 +6,7 @@ const App = () => {
   const [incorrectWords, setIncorrectWords] = useState([]);
   const [wordSuggestions, setWordSuggestions] = useState({});
   const [selectedAPI, setSelectedAPI] = useState("spell-check");
-
+  const [selectLang, setSelectLang] = useState("English");
   // Function to check spelling mistakes
   const checkText = async (event) => {
     if (!editorRef.current) return;
@@ -84,8 +84,14 @@ const App = () => {
       {/* Navbar */}
       <nav className="navbar">
         <div className="logo">SpellChecker using Trie</div>
+        <div className="lang-selection">
+          <button onClick={() => setSelectLang("English")} className={selectLang === "English" ? "active" : ""}>English</button>
+          <button onClick={() => setSelectLang("Bengali")} className={selectLang === "Bengali" ? "active" : ""}>বাংলা</button>
+          <button onClick={() => setSelectLang("Hindi")} className={selectLang === "Hindi" ? "active" : ""}>हिंदी</button>
+          {/* <button onClick={() => setSelectLang("API 4")} className={selectLang === "API 4" ? "active" : ""}>API 4</button> */}
+        </div>
       </nav>
-
+      
       {/* Header Text Above Textbox */}
       <div className="header-text">
         <p>Type freely and let AI assist you with corrections and improvements.</p>

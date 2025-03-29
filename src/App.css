@@ -5,10 +5,13 @@
   box-sizing: border-box;
   font-family: "Arial", sans-serif;
 }
-
+html{
+  background-color: #1e293b;
+}
 /* Container */
 .container {
   margin: 0 auto;
+  background-color: white;
 }
 
 /* Navbar */
@@ -187,6 +190,7 @@
   margin: 20px 0;
 }
 
+
 .api-selection button {
   padding: 10px 15px;
   border: none;
@@ -198,5 +202,23 @@
 
 .api-selection button.active {
   background-color: #007bff;
+  color: white;
+}
+
+.lang-selection {
+  display: flex;
+  gap: 10px;
+}
+.lang-selection button {
+  padding: 10px 15px;
+  border: none;
+  cursor: pointer;
+  background-color: #ccc;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.lang-selection button.active {
+  background-color: #ff6a00;
   color: white;
 }
