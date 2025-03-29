@@ -85,9 +85,9 @@ const App = () => {
       <nav className="navbar">
         <div className="logo">SpellChecker using Trie</div>
         <div className="lang-selection">
-          <button onClick={() => setSelectLang("english")} className={selectLang === "English" ? "active" : ""}>English</button>
-          <button onClick={() => setSelectLang("bengali")} className={selectLang === "Bengali" ? "active" : ""}>বাংলা</button>
-          <button onClick={() => setSelectLang("hindi")} className={selectLang === "Hindi" ? "active" : ""}>हिंदी</button>
+          <button onClick={() => setSelectLang("english")} className={selectLang === "english" ? "active" : ""}>English</button>
+          <button onClick={() => setSelectLang("bengali")} className={selectLang === "bengali" ? "active" : ""}>বাংলা</button>
+          <button onClick={() => setSelectLang("hindi")} className={selectLang === "hindi" ? "active" : ""}>हिंदी</button>
           {/* <button onClick={() => setSelectLang("API 4")} className={selectLang === "API 4" ? "active" : ""}>API 4</button> */}
         </div>
       </nav>
