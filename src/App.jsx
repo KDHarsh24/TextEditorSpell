@@ -6,7 +6,7 @@ const App = () => {
   const [incorrectWords, setIncorrectWords] = useState([]);
   const [wordSuggestions, setWordSuggestions] = useState({});
   const [selectedAPI, setSelectedAPI] = useState("spell-check");
-  const [selectLang, setSelectLang] = useState("English");
+  const [selectLang, setSelectLang] = useState("english");
   // Function to check spelling mistakes
   const checkText = async (event) => {
     if (!editorRef.current) return;
@@ -33,7 +33,7 @@ const App = () => {
     let lastWord = words[words.length - 1];
     if (!lastWord) return;
   
-    const suggestions = await spellCheckAPI(lastWord, selectedAPI);
+    const suggestions = await spellCheckAPI(lastWord, selectedAPI, selectLang);
     if (suggestions.length > 0) {
       setIncorrectWords((prev) => [...prev, { word: lastWord, index: words.length - 1 }]);
       setWordSuggestions((prev) => ({ ...prev, [words.length - 1]: suggestions }));
@@ -85,9 +85,9 @@ const App = () => {
       <nav className="navbar">
         <div className="logo">SpellChecker using Trie</div>
         <div className="lang-selection">
-          <button onClick={() => setSelectLang("English")} className={selectLang === "English" ? "active" : ""}>English</button>
-          <button onClick={() => setSelectLang("Bengali")} className={selectLang === "Bengali" ? "active" : ""}>বাংলা</button>
-          <button onClick={() => setSelectLang("Hindi")} className={selectLang === "Hindi" ? "active" : ""}>हिंदी</button>
+          <button onClick={() => setSelectLang("english")} className={selectLang === "English" ? "active" : ""}>English</button>
+          <button onClick={() => setSelectLang("bengali")} className={selectLang === "Bengali" ? "active" : ""}>বাংলা</button>
+          <button onClick={() => setSelectLang("hindi")} className={selectLang === "Hindi" ? "active" : ""}>हिंदी</button>
           {/* <button onClick={() => setSelectLang("API 4")} className={selectLang === "API 4" ? "active" : ""}>API 4</button> */}
         </div>
       </nav>

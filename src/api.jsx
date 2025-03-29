@@ -1,6 +1,6 @@
-const spellCheckAPI = async (word, api) => {
+const spellCheckAPI = async (word, api, lang) => {
   try {
-    const response = await fetch(`https://spell-checkerproject.vercel.app/${api}`, {
+    const response = await fetch(`https://spell-checkerproject.vercel.app/${lang}/${api}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ word }),
