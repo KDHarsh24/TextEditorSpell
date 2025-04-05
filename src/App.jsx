@@ -8,30 +8,18 @@ const App = () => {
   const [selectedAPI, setSelectedAPI] = useState("spell-check");
   const [selectLang, setSelectLang] = useState("english");
   // Function to check spelling mistakes
-  const checkText = async (event) => {
+  const checkText = async () => {
     if (!editorRef.current) return;
   
     const text = editorRef.current.innerText.trim();
-    let words = text.split(/\s+/);
+    const words = text.split(/\s+/);
   
-    // Handle Backspace Key
-    if (event.key === "Backspace") {
-      const updatedIncorrectWords = incorrectWords.filter(({ word }) => words.includes(word));
-      setIncorrectWords(updatedIncorrectWords);
-  
-      const updatedSuggestions = {};
-      updatedIncorrectWords.forEach(({ index }) => {
-        updatedSuggestions[index] = wordSuggestions[index];
-      });
-      setWordSuggestions(updatedSuggestions);
-      return;
-    }
-  
-    // Handle Space Key for Spell Check
-    if (event.key !== " ") return;
-  
-    let lastWord = words[words.length - 1];
+    const lastWord = words[words.length - 1];
     if (!lastWord) return;
+  
+    // Only spellcheck new words not already checked
+    const alreadyCheckedIndexes = incorrectWords.map(({ index }) => index);
+    if (alreadyCheckedIndexes.includes(words.length - 1)) return;
   
     const suggestions = await spellCheckAPI(lastWord, selectedAPI, selectLang);
     if (suggestions.length > 0) {
@@ -39,6 +27,26 @@ const App = () => {
       setWordSuggestions((prev) => ({ ...prev, [words.length - 1]: suggestions }));
     }
   };
+  
+  // Handle both typing and backspace changes
+  const handleInput = () => {
+    if (!editorRef.current) return;
+    const text = editorRef.current.innerText.trim();
+    const words = text.split(/\s+/);
+  
+    // Cleanup incorrect words no longer present
+    const updatedIncorrectWords = incorrectWords.filter(({ word }) => words.includes(word));
+    setIncorrectWords(updatedIncorrectWords);
+  
+    const updatedSuggestions = {};
+    updatedIncorrectWords.forEach(({ index }) => {
+      updatedSuggestions[index] = wordSuggestions[index];
+    });
+    setWordSuggestions(updatedSuggestions);
+  
+    checkText(); // Run spell check on the most recent word
+  };
+  
   
   
 
@@ -107,7 +115,7 @@ const App = () => {
         {/* Editable Textbox */}
         <div className="editor-container">
           <h3>Write Your Words</h3>
-          <div ref={editorRef} contentEditable={true} className="editor-content" data-placeholder="Start typing..." onKeyDown={checkText}></div>
+          <div ref={editorRef} contentEditable={true} className="editor-content" data-placeholder="Start typing..." onInput={handleInput}></div>
         </div>
 
         {/* Right Side Suggestion Box */}
