@@ -8,7 +8,7 @@ const App = () => {
   const [selectedAPI, setSelectedAPI] = useState("spell-check");
   const [selectLang, setSelectLang] = useState("english");
   // Function to check spelling mistakes
-  const lastTextRef = useRef(""); // Add this line at top, near other refs
+  const lastTextRef = useRef(""); // Add this line with other refs if not already added
 
 const checkText = async () => {
   if (!editorRef.current) return;
@@ -17,25 +17,40 @@ const checkText = async () => {
   const trimmedText = currentText.trim();
   const words = trimmedText.split(/\s+/);
 
+  console.log("📝 Current text:", currentText);
+  console.log("🔠 Words:", words);
+
   const lastText = lastTextRef.current;
   lastTextRef.current = currentText;
 
-  // Trigger only when space is added
-  if (currentText.length > lastText.length && currentText.endsWith(" ")) {
+  // Only run on space (word completion)
+  const isSpaceTyped = currentText.length > lastText.length && currentText.endsWith(" ");
+  if (isSpaceTyped) {
     const lastWord = words[words.length - 1];
+    console.log("⏎ Space typed! Last word:", lastWord);
+
     if (!lastWord) return;
 
     const alreadyChecked = incorrectWords.find(({ index }) => index === words.length - 1);
     if (!alreadyChecked) {
+      console.log("🔍 Checking spelling for:", lastWord);
+
       const suggestions = await spellCheckAPI(lastWord, selectedAPI, selectLang);
+      console.log("📌 Suggestions:", suggestions);
+
       if (suggestions.length > 0) {
         setIncorrectWords((prev) => [...prev, { word: lastWord, index: words.length - 1 }]);
-        setWordSuggestions((prev) => ({ ...prev, [words.length - 1]: suggestions }));
+        setWordSuggestions((prev) => ({
+          ...prev,
+          [words.length - 1]: suggestions,
+        }));
       }
+    } else {
+      console.log("✅ Already checked:", lastWord);
     }
   }
 
-  // Cleanup removed words
+  // Remove outdated incorrect words
   const updatedIncorrectWords = incorrectWords.filter(({ word }) => words.includes(word));
   setIncorrectWords(updatedIncorrectWords);
 
@@ -44,6 +59,9 @@ const checkText = async () => {
     updatedSuggestions[index] = wordSuggestions[index];
   });
   setWordSuggestions(updatedSuggestions);
+
+  console.log("🧹 Cleaned incorrect words:", updatedIncorrectWords);
+  console.log("📦 Word suggestions state:", updatedSuggestions);
 };
 
   
@@ -114,7 +132,7 @@ const checkText = async () => {
         {/* Editable Textbox */}
         <div className="editor-container">
           <h3>Write Your Words</h3>
-          <div ref={editorRef} contentEditable={true} className="editor-content" data-placeholder="Start typing..." onKeyDown={checkText}></div>
+          <div ref={editorRef} contentEditable={true} className="editor-content" data-placeholder="Start typing..." onInput={checkText}></div>
         </div>
 
         {/* Right Side Suggestion Box */}
