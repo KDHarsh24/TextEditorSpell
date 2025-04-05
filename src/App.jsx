@@ -37,29 +37,15 @@ const App = () => {
         try {
           const suggestions = await spellCheckAPI(lastWord, selectedAPI, selectLang);
           console.log("✅ Suggestions from backend:", suggestions);
-  
           if (suggestions.length > 0) {
             setIncorrectWords((prev) => [...prev, { word: lastWord, index: words.length - 1 }]);
-            setWordSuggestions((prev) => ({
-              ...prev,
-              [words.length - 1]: suggestions,
-            }));
+            setWordSuggestions((prev) => ({ ...prev, [words.length - 1]: suggestions }));
           }
         } catch (error) {
           console.error("❌ API call failed:", error);
         }
       }
     }
-  
-    // Clean outdated incorrect words
-    const updatedIncorrectWords = incorrectWords.filter(({ word }) => words.includes(word));
-    setIncorrectWords(updatedIncorrectWords);
-  
-    const updatedSuggestions = {};
-    updatedIncorrectWords.forEach(({ index }) => {
-      updatedSuggestions[index] = wordSuggestions[index];
-    });
-    setWordSuggestions(updatedSuggestions);
   };
   
   
