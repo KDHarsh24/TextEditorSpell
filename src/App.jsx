@@ -8,44 +8,63 @@ const App = () => {
   const [selectedAPI, setSelectedAPI] = useState("spell-check");
   const [selectLang, setSelectLang] = useState("english");
   // Function to check spelling mistakes
-  const checkText = async () => {
-    if (!editorRef.current) return;
+  // const checkText = async () => {
+  //   if (!editorRef.current) return;
   
-    const text = editorRef.current.innerText.trim();
-    const words = text.split(/\s+/);
+  //   const text = editorRef.current.innerText.trim();
+  //   const words = text.split(/\s+/);
   
+  //   const lastWord = words[words.length - 1];
+  //   if (!lastWord) return;
+  
+  //   // Only spellcheck new words not already checked
+  //   const alreadyCheckedIndexes = incorrectWords.map(({ index }) => index);
+  //   if (alreadyCheckedIndexes.includes(words.length - 1)) return;
+  
+  //   const suggestions = await spellCheckAPI(lastWord, selectedAPI, selectLang);
+  //   if (suggestions.length > 0) {
+  //     setIncorrectWords((prev) => [...prev, { word: lastWord, index: words.length - 1 }]);
+  //     setWordSuggestions((prev) => ({ ...prev, [words.length - 1]: suggestions }));
+  //   }
+  // };
+  
+  const lastTextRef = useRef("");
+
+const handleInput = async () => {
+  if (!editorRef.current) return;
+
+  const currentText = editorRef.current.innerText;
+  const trimmedText = currentText.trim();
+  const words = trimmedText.split(/\s+/);
+
+  const lastText = lastTextRef.current;
+  lastTextRef.current = currentText; // update for next time
+
+  // Detect if space was just added
+  if (currentText.length > lastText.length && currentText.endsWith(" ")) {
     const lastWord = words[words.length - 1];
     if (!lastWord) return;
-  
-    // Only spellcheck new words not already checked
+
     const alreadyCheckedIndexes = incorrectWords.map(({ index }) => index);
     if (alreadyCheckedIndexes.includes(words.length - 1)) return;
-  
+
     const suggestions = await spellCheckAPI(lastWord, selectedAPI, selectLang);
     if (suggestions.length > 0) {
       setIncorrectWords((prev) => [...prev, { word: lastWord, index: words.length - 1 }]);
       setWordSuggestions((prev) => ({ ...prev, [words.length - 1]: suggestions }));
     }
-  };
-  
-  // Handle both typing and backspace changes
-  const handleInput = () => {
-    if (!editorRef.current) return;
-    const text = editorRef.current.innerText.trim();
-    const words = text.split(/\s+/);
-  
-    // Cleanup incorrect words no longer present
-    const updatedIncorrectWords = incorrectWords.filter(({ word }) => words.includes(word));
-    setIncorrectWords(updatedIncorrectWords);
-  
-    const updatedSuggestions = {};
-    updatedIncorrectWords.forEach(({ index }) => {
-      updatedSuggestions[index] = wordSuggestions[index];
-    });
-    setWordSuggestions(updatedSuggestions);
-  
-    checkText(); // Run spell check on the most recent word
-  };
+  }
+
+  // Clean up deleted words
+  const updatedIncorrectWords = incorrectWords.filter(({ word }) => words.includes(word));
+  setIncorrectWords(updatedIncorrectWords);
+
+  const updatedSuggestions = {};
+  updatedIncorrectWords.forEach(({ index }) => {
+    updatedSuggestions[index] = wordSuggestions[index];
+  });
+  setWordSuggestions(updatedSuggestions);
+};
   
   
   
