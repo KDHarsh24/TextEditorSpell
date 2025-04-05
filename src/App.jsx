@@ -9,61 +9,58 @@ const App = () => {
   const [selectLang, setSelectLang] = useState("english");
   // Function to check spelling mistakes
   const lastTextRef = useRef(""); // Add this line with other refs if not already added
-
-const checkText = async () => {
-  if (!editorRef.current) return;
-
-  const currentText = editorRef.current.innerText;
-  const trimmedText = currentText.trim();
-  const words = trimmedText.split(/\s+/);
-
-  console.log("📝 Current text:", currentText);
-  console.log("🔠 Words:", words);
-
-  const lastText = lastTextRef.current;
-  lastTextRef.current = currentText;
-
-  // Only run on space (word completion)
-  const isSpaceTyped = currentText.length > lastText.length && currentText.endsWith(" ");
-  if (isSpaceTyped) {
-    const lastWord = words[words.length - 1];
-    console.log("⏎ Space typed! Last word:", lastWord);
-
-    if (!lastWord) return;
-
-    const alreadyChecked = incorrectWords.find(({ index }) => index === words.length - 1);
-    if (!alreadyChecked) {
-      console.log("🔍 Checking spelling for:", lastWord);
-
-      const suggestions = await spellCheckAPI(lastWord, selectedAPI, selectLang);
-      console.log("📌 Suggestions:", suggestions);
-
-      if (suggestions.length > 0) {
-        setIncorrectWords((prev) => [...prev, { word: lastWord, index: words.length - 1 }]);
-        setWordSuggestions((prev) => ({
-          ...prev,
-          [words.length - 1]: suggestions,
-        }));
+  const checkText = async () => {
+    if (!editorRef.current) return;
+  
+    const currentText = editorRef.current.innerText;
+    const trimmedText = currentText.trim();
+    const words = trimmedText.split(/\s+/);
+  
+    const lastText = lastTextRef.current;
+    lastTextRef.current = currentText;
+  
+    console.log("🔍 Text changed. Current:", currentText);
+    console.log("✂️ Words:", words);
+  
+    // Normalize ending character (space or non-breaking space)
+    const lastChar = currentText.slice(-1);
+    const isSpaceTyped = /\s|\u00A0/.test(lastChar) && currentText.length > lastText.length;
+  
+    if (isSpaceTyped) {
+      const lastWord = words[words.length - 1];
+      console.log("🆕 Word completed:", lastWord);
+  
+      if (!lastWord) return;
+  
+      const alreadyChecked = incorrectWords.find(({ index }) => index === words.length - 1);
+      if (!alreadyChecked) {
+        try {
+          const suggestions = await spellCheckAPI(lastWord, selectedAPI, selectLang);
+          console.log("✅ Suggestions from backend:", suggestions);
+  
+          if (suggestions.length > 0) {
+            setIncorrectWords((prev) => [...prev, { word: lastWord, index: words.length - 1 }]);
+            setWordSuggestions((prev) => ({
+              ...prev,
+              [words.length - 1]: suggestions,
+            }));
+          }
+        } catch (error) {
+          console.error("❌ API call failed:", error);
+        }
       }
-    } else {
-      console.log("✅ Already checked:", lastWord);
     }
-  }
-
-  // Remove outdated incorrect words
-  const updatedIncorrectWords = incorrectWords.filter(({ word }) => words.includes(word));
-  setIncorrectWords(updatedIncorrectWords);
-
-  const updatedSuggestions = {};
-  updatedIncorrectWords.forEach(({ index }) => {
-    updatedSuggestions[index] = wordSuggestions[index];
-  });
-  setWordSuggestions(updatedSuggestions);
-
-  console.log("🧹 Cleaned incorrect words:", updatedIncorrectWords);
-  console.log("📦 Word suggestions state:", updatedSuggestions);
-};
-
+  
+    // Clean outdated incorrect words
+    const updatedIncorrectWords = incorrectWords.filter(({ word }) => words.includes(word));
+    setIncorrectWords(updatedIncorrectWords);
+  
+    const updatedSuggestions = {};
+    updatedIncorrectWords.forEach(({ index }) => {
+      updatedSuggestions[index] = wordSuggestions[index];
+    });
+    setWordSuggestions(updatedSuggestions);
+  };
   
   
 
