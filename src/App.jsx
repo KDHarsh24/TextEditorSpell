@@ -8,29 +8,9 @@ const App = () => {
   const [selectedAPI, setSelectedAPI] = useState("spell-check");
   const [selectLang, setSelectLang] = useState("english");
   // Function to check spelling mistakes
-  // const checkText = async () => {
-  //   if (!editorRef.current) return;
-  
-  //   const text = editorRef.current.innerText.trim();
-  //   const words = text.split(/\s+/);
-  
-  //   const lastWord = words[words.length - 1];
-  //   if (!lastWord) return;
-  
-  //   // Only spellcheck new words not already checked
-  //   const alreadyCheckedIndexes = incorrectWords.map(({ index }) => index);
-  //   if (alreadyCheckedIndexes.includes(words.length - 1)) return;
-  
-  //   const suggestions = await spellCheckAPI(lastWord, selectedAPI, selectLang);
-  //   if (suggestions.length > 0) {
-  //     setIncorrectWords((prev) => [...prev, { word: lastWord, index: words.length - 1 }]);
-  //     setWordSuggestions((prev) => ({ ...prev, [words.length - 1]: suggestions }));
-  //   }
-  // };
-  
-  const lastTextRef = useRef("");
+  const lastTextRef = useRef(""); // Add this line at top, near other refs
 
-const handleInput = async () => {
+const checkText = async () => {
   if (!editorRef.current) return;
 
   const currentText = editorRef.current.innerText;
@@ -38,24 +18,24 @@ const handleInput = async () => {
   const words = trimmedText.split(/\s+/);
 
   const lastText = lastTextRef.current;
-  lastTextRef.current = currentText; // update for next time
+  lastTextRef.current = currentText;
 
-  // Detect if space was just added
+  // Trigger only when space is added
   if (currentText.length > lastText.length && currentText.endsWith(" ")) {
     const lastWord = words[words.length - 1];
     if (!lastWord) return;
 
-    const alreadyCheckedIndexes = incorrectWords.map(({ index }) => index);
-    if (alreadyCheckedIndexes.includes(words.length - 1)) return;
-
-    const suggestions = await spellCheckAPI(lastWord, selectedAPI, selectLang);
-    if (suggestions.length > 0) {
-      setIncorrectWords((prev) => [...prev, { word: lastWord, index: words.length - 1 }]);
-      setWordSuggestions((prev) => ({ ...prev, [words.length - 1]: suggestions }));
+    const alreadyChecked = incorrectWords.find(({ index }) => index === words.length - 1);
+    if (!alreadyChecked) {
+      const suggestions = await spellCheckAPI(lastWord, selectedAPI, selectLang);
+      if (suggestions.length > 0) {
+        setIncorrectWords((prev) => [...prev, { word: lastWord, index: words.length - 1 }]);
+        setWordSuggestions((prev) => ({ ...prev, [words.length - 1]: suggestions }));
+      }
     }
   }
 
-  // Clean up deleted words
+  // Cleanup removed words
   const updatedIncorrectWords = incorrectWords.filter(({ word }) => words.includes(word));
   setIncorrectWords(updatedIncorrectWords);
 
@@ -65,7 +45,7 @@ const handleInput = async () => {
   });
   setWordSuggestions(updatedSuggestions);
 };
-  
+
   
   
 
@@ -134,7 +114,7 @@ const handleInput = async () => {
         {/* Editable Textbox */}
         <div className="editor-container">
           <h3>Write Your Words</h3>
-          <div ref={editorRef} contentEditable={true} className="editor-content" data-placeholder="Start typing..." onInput={handleInput}></div>
+          <div ref={editorRef} contentEditable={true} className="editor-content" data-placeholder="Start typing..." onKeyDown={checkText}></div>
         </div>
 
         {/* Right Side Suggestion Box */}
