@@ -1,7 +1,12 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import "./App.css";
 import spellCheckAPI from "./api";
+import {trackUser} from "./api"; // Import the tracking function
 const App = () => {
+  useEffect(() => {
+    // Call the tracking function when the component mounts
+    trackUser();
+  }, []); // Empty dependency array to run only once on mount
   const editorRef = useRef(null);
   const [incorrectWords, setIncorrectWords] = useState([]);
   const [wordSuggestions, setWordSuggestions] = useState({});

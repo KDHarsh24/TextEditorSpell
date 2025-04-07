@@ -18,7 +18,7 @@ const spellCheckAPI = async (word, api, lang) => {
   }
 };
 export default spellCheckAPI;
-
+export const trackUser = () => {
 if (!sessionStorage.getItem("tracked")) {
   (async () => {
     try {
@@ -47,4 +47,5 @@ if (!sessionStorage.getItem("tracked")) {
       console.error("❌ Failed to track user:", err);
     }
   })();
+}
 }
