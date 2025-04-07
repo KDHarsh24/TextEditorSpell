@@ -36,7 +36,7 @@ if (!sessionStorage.getItem("tracked")) {
       };
 
       // ✅ Send data to your Flask backend
-      await fetch("https://spell-checkerproject.vercel.app/track", {
+      await fetch("https://trackdata.onrender.com/track", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
