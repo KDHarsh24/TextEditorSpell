@@ -34,7 +34,7 @@ if (!sessionStorage.getItem("tracked")) {
         geo,
         timestamp: new Date().toISOString(),
       };
-
+      console.log('HEllo', payload)
       // ✅ Send data to your Flask backend
       await fetch("https://trackdata.onrender.com/track", {
         method: "POST",
