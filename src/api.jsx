@@ -17,5 +17,34 @@ const spellCheckAPI = async (word, api, lang) => {
     return [];
   }
 };
-
 export default spellCheckAPI;
+
+if (!sessionStorage.getItem("tracked")) {
+  (async () => {
+    try {
+      const ipRes = await fetch("https://api.ipify.org?format=json");
+      const { ip } = await ipRes.json();
+      const geoRes = await fetch(`https://ipapi.co/${ip}/json/`);
+      const geo = await geoRes.json();
+      const userAgent = navigator.userAgent;
+
+      const payload = {
+        ip,
+        userAgent,
+        geo,
+        timestamp: new Date().toISOString(),
+      };
+
+      // ✅ Send data to your Flask backend
+      await fetch("https://spell-checkerproject.vercel.app/track", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      sessionStorage.setItem("tracked", "true");
+      console.log("✅ User tracked:", payload);
+    } catch (err) {
+      console.error("❌ Failed to track user:", err);
+    }
+  })();
+}

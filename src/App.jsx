@@ -19,8 +19,8 @@ const App = () => {
     const lastText = lastTextRef.current;
     lastTextRef.current = currentText;
   
-    console.log("🔍 Text changed. Current:", currentText);
-    console.log("✂️ Words:", words);
+    // console.log("🔍 Text changed. Current:", currentText);
+    // console.log("✂️ Words:", words);
   
     // Normalize ending character (space or non-breaking space)
     const lastChar = currentText.slice(-1);
@@ -28,7 +28,7 @@ const App = () => {
   
     if (isSpaceTyped) {
       const lastWord = words[words.length - 1];
-      console.log("🆕 Word completed:", lastWord);
+      // console.log("🆕 Word completed:", lastWord);
   
       if (!lastWord) return;
   
@@ -36,7 +36,7 @@ const App = () => {
       if (!alreadyChecked) {
         try {
           const suggestions = await spellCheckAPI(lastWord, selectedAPI, selectLang);
-          console.log("✅ Suggestions from backend:", suggestions);
+          // console.log("✅ Suggestions from backend:", suggestions);
           if (suggestions.length > 0) {
             setIncorrectWords((prev) => [...prev, { word: lastWord, index: words.length - 1 }]);
             setWordSuggestions((prev) => ({ ...prev, [words.length - 1]: suggestions }));
