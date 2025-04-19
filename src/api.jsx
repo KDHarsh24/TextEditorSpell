@@ -5,11 +5,9 @@ const spellCheckAPI = async (word, api, lang) => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ word }),
     });
-
     if (!response.ok) {
       throw new Error("Failed to fetch spell-check suggestions");
     }
-
     const data = await response.json();
     return data.suggestions; // Returns the array of suggested words
   } catch (error) {
@@ -18,6 +16,7 @@ const spellCheckAPI = async (word, api, lang) => {
   }
 };
 export default spellCheckAPI;
+
 export const trackUser = () => {
 if (!sessionStorage.getItem("tracked")) {
   (async () => {
@@ -34,7 +33,6 @@ if (!sessionStorage.getItem("tracked")) {
         geo,
         timestamp: new Date().toISOString(),
       };
-      console.log('HEllo', payload)
       // ✅ Send data to your Flask backend
       await fetch("https://trackdata.onrender.com/track", {
         method: "POST",
