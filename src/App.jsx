@@ -20,28 +20,36 @@ const App = () => {
     const currentText = editorRef.current.innerText;
     const trimmedText = currentText.trim();
     const words = trimmedText.split(/\s+/);
-  
     const lastText = lastTextRef.current;
     lastTextRef.current = currentText;
   
-    // console.log("🔍 Text changed. Current:", currentText);
-    // console.log("✂️ Words:", words);
-  
-    // Normalize ending character (space or non-breaking space)
     const lastChar = currentText.slice(-1);
     const isSpaceTyped = /\s|\u00A0/.test(lastChar) && currentText.length > lastText.length;
   
+    // 🧹 Remove suggestions for deleted words
+    setIncorrectWords((prevIncorrect) =>
+      prevIncorrect.filter(({ index, word }) => index < words.length && words[index] === word)
+    );
+  
+    setWordSuggestions((prevSuggestions) => {
+      const newSuggestions = {};
+      for (let index in prevSuggestions) {
+        const idx = parseInt(index);
+        if (idx < words.length && words[idx] === incorrectWords.find(w => w.index === idx)?.word) {
+          newSuggestions[index] = prevSuggestions[index];
+        }
+      }
+      return newSuggestions;
+    });
+  
     if (isSpaceTyped) {
       const lastWord = words[words.length - 1];
-      // console.log("🆕 Word completed:", lastWord);
-  
       if (!lastWord) return;
   
       const alreadyChecked = incorrectWords.find(({ index }) => index === words.length - 1);
       if (!alreadyChecked) {
         try {
           const suggestions = await spellCheckAPI(lastWord, selectedAPI, selectLang);
-          // console.log("✅ Suggestions from backend:", suggestions);
           if (suggestions.length > 0) {
             setIncorrectWords((prev) => [...prev, { word: lastWord, index: words.length - 1 }]);
             setWordSuggestions((prev) => ({ ...prev, [words.length - 1]: suggestions }));
