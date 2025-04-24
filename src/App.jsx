@@ -153,6 +153,7 @@ const App = () => {
           )}
         </div>
       </div>
+      <div className="bottom-text">
       <div className="trie-explanation">
         <h2>🔍 How Trie-Based Spell Checker Works</h2>
         <p>
@@ -182,7 +183,7 @@ const App = () => {
           <li>📙 Manipuri: Wiktionary dump + community contributions</li>
         </ul>
 
-        <div className="bottom-text">
+        
         <h3>🌲 Visual Trie Tree with Edit Distance</h3>
         <p>Let's visualize a small Trie with the words: <strong>car</strong>, <strong>cat</strong>, <strong>cap</strong>, and <strong>bat</strong>. When you type a word, the algorithm walks through this tree to find closest matches using edit distance.</p>
 
