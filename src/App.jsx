@@ -182,28 +182,44 @@ const App = () => {
           <li>📙 Manipuri: Wiktionary dump + community contributions</li>
         </ul>
 
-        <h3>🌲 Example Trie Tree</h3>
-        <div className="trie-tree">
-          <div className="node root">""</div>
+        
+        <h3>🌲 Example Trie Tree with Edit Distance</h3>
+<div className="trie-tree">
+  <div className="branch">
+    <div className="node root">""</div>
+    <div className="branch">
+      <div className="node">c</div>
+      <div className="branch">
+        <div className="node">a</div>
+        <div className="branch">
+          <div className="node leaf">t</div>
+        </div>
+      </div>
+    </div>
+    <div className="branch">
+      <div className="node">d</div>
+      <div className="branch">
+        <div className="node">o</div>
+        <div className="branch">
+          <div className="node leaf">g</div>
+        </div>
+      </div>
+    </div>
+    <div className="branch">
+      <div className="node">r</div>
+      <div className="branch">
+        <div className="node">a</div>
+        <div className="branch">
+          <div className="node">t</div>
           <div className="branch">
-            <div className="node">c</div>
-            <div className="branch">
-              <div className="node">a</div>
-              <div className="branch">
-                <div className="node leaf">t 🐱</div>
-              </div>
-            </div>
-          </div>
-          <div className="branch">
-            <div className="node">d</div>
-            <div className="branch">
-              <div className="node">o</div>
-              <div className="branch">
-                <div className="node leaf">g 🐶</div>
-              </div>
-            </div>
+            <div className="node leaf">e</div>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
       </div>
 
 

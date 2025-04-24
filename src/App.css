@@ -222,50 +222,46 @@ html{
   background-color: #ff6a00;
   color: white;
 }
-.trie-explanation {
-  padding: 20px;
-  color: #333;
-  font-family: "Segoe UI", sans-serif;
-}
-
-.trie-explanation h2,
-.trie-explanation h3 {
-  color: #3f51b5;
-  margin-top: 1.5rem;
-}
-
-.trie-explanation ul {
-  padding-left: 20px;
-}
-
 .trie-tree {
+  margin-top: 2rem;
   display: flex;
   justify-content: center;
-  gap: 60px;
-  margin-top: 20px;
-  position: relative;
   flex-wrap: wrap;
+  font-family: monospace;
+  position: relative;
+  padding-bottom: 2rem;
 }
 
 .node {
-  background-color: #e3f2fd;
-  border: 2px solid #2196f3;
+  background-color: #6c5ce7;
+  color: white;
   border-radius: 50%;
-  width: 60px;
-  height: 60px;
-  line-height: 60px;
-  text-align: center;
-  font-weight: bold;
-  color: #1565c0;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-  transition: transform 0.3s ease;
+  padding: 0.8rem;
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: relative;
-  z-index: 2;
+  font-weight: bold;
+  margin: 0 auto;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  z-index: 1;
+  transition: transform 0.3s ease;
 }
 
 .node:hover {
   transform: scale(1.1);
-  background-color: #bbdefb;
+  background-color: #a29bfe;
+}
+
+.leaf::after {
+  content: "✔";
+  color: lightgreen;
+  position: absolute;
+  right: -10px;
+  top: -10px;
+  font-size: 1.2rem;
 }
 
 .branch {
@@ -276,19 +272,22 @@ html{
 }
 
 .branch::before {
-  content: '';
+  content: "";
   width: 2px;
-  height: 40px;
-  background-color: #64b5f6;
+  height: 20px;
+  background-color: #b2bec3;
   position: absolute;
-  top: -40px;
+  top: -20px;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 1;
 }
 
-.leaf {
-  background-color: #c8e6c9;
-  border-color: #43a047;
-  color: #2e7d32;
+.branch > .node + .branch::before {
+  height: 20px;
+}
+
+.trie-tree .branch > .branch {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 1rem;
 }
