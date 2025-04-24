@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import "./App.css";
 import spellCheckAPI from "./api";
 import {trackUser} from "./api"; // Import the tracking function
+import TrieAnimation from "./triAnimate";
 const App = () => {
   useEffect(() => {
     // Call the tracking function when the component mounts
@@ -99,61 +100,7 @@ const App = () => {
     // Restore normal text
     editorRef.current.innerHTML = editorRef.current.textContent;
   };
-  const [animationStep, setAnimationStep] = useState(0);
-  // const [trieNodes, setTrieNodes] = useState([]);
-  
-  useEffect(() => {
-    const timer = setInterval(() => {
-      if (animationStep < 5) {
-        setAnimationStep(prevStep => prevStep + 1);
-      }
-    }, 1500); // Adjust the interval to control speed of animation
-    
-    return () => clearInterval(timer); // Clean up timer on unmount
-  }, [animationStep]);
 
-  const renderTrieAnimation = () => {
-    switch (animationStep) {
-      case 1:
-        return <div className="trie-node">Root</div>;
-      case 2:
-        return (
-          <>
-            <div className="trie-node">Root</div>
-            <div className="trie-node">R</div>
-          </>
-        );
-      case 3:
-        return (
-          <>
-            <div className="trie-node">Root</div>
-            <div className="trie-node">R</div>
-            <div className="trie-node">Re</div>
-          </>
-        );
-      case 4:
-        return (
-          <>
-            <div className="trie-node">Root</div>
-            <div className="trie-node">R</div>
-            <div className="trie-node">Re</div>
-            <div className="trie-node">Rep</div>
-          </>
-        );
-      case 5:
-        return (
-          <>
-            <div className="trie-node">Root</div>
-            <div className="trie-node">R</div>
-            <div className="trie-node">Re</div>
-            <div className="trie-node">Rep</div>
-            <div className="trie-node">Repa</div>
-          </>
-        );
-      default:
-        return <div className="trie-node">Root</div>;
-    }
-  };
   return (
     <div className="container">
       {/* Navbar */}
@@ -208,30 +155,7 @@ const App = () => {
         </div>
       </div>
 
-      {/* Trie Animation Section */}
-      <div className="trie-animation-container">
-        <h3>Trie Animation</h3>
-        <div className="trie-animation">{renderTrieAnimation()}</div>
-      </div>
-
-      {/* Bottom Text with Explanation */}
-      <div className="bottom-text">
-        <p>
-          A **Trie** is a tree-like data structure that is primarily used for storing strings, like words in a dictionary. It allows us to efficiently check if a word exists, find its closest matches, and find spelling corrections. Each node in a Trie represents a character, and words are stored by traversing these nodes character by character.
-
-          When a word is typed, we start from the root and move down the tree based on the characters of the word. If we reach the end of the word and the node is marked as an **end-of-word** node, we know that the word exists in the Trie.
-
-          For the **Spell Checker**, the **Trie** helps us find potential spelling errors quickly by comparing each word against the dictionary stored in the Trie. If a word does not match any path in the Trie, it is considered an incorrect word, and we provide suggestions for similar words using algorithms like **Levenshtein Distance**.
-
-          As you type, we analyze the words using a combination of the Trie structure and spell-checking algorithms. If a word has a close match in the Trie, it is highlighted as a potential correction. The spell checker can suggest multiple similar words based on the current language (e.g., English, Hindi, Bengali, Manipuri). The words can then be replaced with a click of a button.
-
-          This method is fast and efficient, especially when dealing with large dictionaries, as the Trie allows us to check each character in constant time.
-
-          The dictionary used in this implementation is sourced from trusted open-source word lists for each language supported. Additionally, **Levenshtein Distance** is used to suggest words that are similar to the incorrect word, based on the number of character edits needed to convert one word into another.
-
-          🔧 This spell checker uses different APIs such as **Trie Skips**, **SymSpell**, and **PySpell** to enhance its accuracy and efficiency.
-        </p>
-      </div>
+      <TrieAnimation/>
 
       {/* Footer */}
       <footer className="footer">
