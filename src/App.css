@@ -165,8 +165,7 @@ html{
 
 /* Bottom Text */
 .bottom-text {
-  text-align: center;
-  margin-top: 20px;
+  margin: 20px;
   padding: 10px;
   font-size: 1rem;
   color: #64748b;
