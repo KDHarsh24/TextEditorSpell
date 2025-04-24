@@ -156,17 +156,24 @@ const App = () => {
 
       {/* Bottom Text Below Textbox */}
       <div className="bottom-text">
-        <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum fermentum erat non velit tincidunt, eu elementum elit molestie. Mauris luctus, metus at condimentum sodales, ligula orci sodales sapien, nec tincidunt metus urna at erat. Nam nec purus et urna ultrices scelerisque. Donec vitae erat non mi dictum auctor vel a est. In eget massa lorem. Vivamus tristique diam ut metus tincidunt, sed facilisis libero hendrerit. Suspendisse vel nibh nec mauris consequat rhoncus. Duis eget dui eget sapien euismod pretium. Sed accumsan pharetra ipsum, non volutpat lacus tempor non.
+      <div style="text-align:center">
+        <input type="text" id="inputWord" placeholder="Type a word..." />
+        <button onclick="checkWord()">Check</button>
+      </div>
 
-        Curabitur vehicula felis in fermentum ultricies. Proin scelerisque, velit eget feugiat vehicula, urna metus fringilla ligula, eget hendrerit neque mauris ut erat. Etiam et ligula venenatis, aliquet ligula ut, consectetur felis. Sed nec justo in dui tincidunt tincidunt. Nam suscipit vehicula magna, ac suscipit sapien tincidunt nec. Donec eu tortor feugiat, laoreet nisl ut, suscipit libero. Nulla ultricies justo in justo sodales, vel vulputate libero accumsan. Fusce auctor, nisl in mattis fermentum, risus augue tempor magna, id faucibus tortor metus ac nunc. Phasellus nec nisi ut elit vehicula venenatis.
-        </p>
+      <div id="trie-container"></div>
+
+      <div id="suggestions">
+        <h3>Suggestions:</h3>
+        <div id="suggestionList"></div>
+      </div>
       </div>
 
       {/* Footer */}
       <footer className="footer">
         <p>&copy; 2025 SpellChecker using Trie | AI-Powered Writing Assistant</p>
       </footer>
+      
   </div>
 
   );
