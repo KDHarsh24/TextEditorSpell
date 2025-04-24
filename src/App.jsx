@@ -2,7 +2,6 @@ import { useState, useRef, useEffect } from "react";
 import "./App.css";
 import spellCheckAPI from "./api";
 import {trackUser} from "./api"; // Import the tracking function
-import TrieAnimation from "./triAnimate";
 const App = () => {
   useEffect(() => {
     // Call the tracking function when the component mounts
