@@ -183,42 +183,61 @@ const App = () => {
         </ul>
 
         
-        <h3>🌲 Example Trie Tree with Edit Distance</h3>
-<div className="trie-tree">
-  <div className="branch">
-    <div className="node root">""</div>
-    <div className="branch">
-      <div className="node">c</div>
-      <div className="branch">
-        <div className="node">a</div>
-        <div className="branch">
-          <div className="node leaf">t</div>
-        </div>
-      </div>
-    </div>
-    <div className="branch">
-      <div className="node">d</div>
-      <div className="branch">
-        <div className="node">o</div>
-        <div className="branch">
-          <div className="node leaf">g</div>
-        </div>
-      </div>
-    </div>
-    <div className="branch">
-      <div className="node">r</div>
-      <div className="branch">
-        <div className="node">a</div>
-        <div className="branch">
-          <div className="node">t</div>
-          <div className="branch">
-            <div className="node leaf">e</div>
+        <h3>🌲 Visual Trie Tree with Edit Distance</h3>
+        <p>Let's visualize a small Trie with the words: <strong>car</strong>, <strong>cat</strong>, <strong>cap</strong>, and <strong>bat</strong>. When you type a word, the algorithm walks through this tree to find closest matches using edit distance.</p>
+
+        <div className="visual-trie">
+          <div className="node">""</div>
+          <div className="level">
+            <div className="branch">
+              <div className="node">c</div>
+              <div className="level">
+                <div className="branch">
+                  <div className="node">a</div>
+                  <div className="level">
+                    <div className="branch">
+                      <div className="node">r</div>
+                      <div className="node leaf">car</div>
+                    </div>
+                    <div className="branch">
+                      <div className="node">t</div>
+                      <div className="node leaf">cat</div>
+                    </div>
+                    <div className="branch">
+                      <div className="node">p</div>
+                      <div className="node leaf">cap</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="branch">
+              <div className="node">b</div>
+              <div className="level">
+                <div className="branch">
+                  <div className="node">a</div>
+                  <div className="level">
+                    <div className="branch">
+                      <div className="node">t</div>
+                      <div className="node leaf">bat</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-</div>
+
+        <h4>🧠 Edit Distance Traversal</h4>
+        <p>
+          Suppose you typed <code>kat</code>. It's not found, so we traverse this Trie by checking all nodes and calculate edit distance at each branch.
+          <ul>
+            <li>🔁 Match: same letter, no cost</li>
+            <li>✏️ Substitution: cost +1</li>
+            <li>➕ Insertion / ❌ Deletion: cost +1</li>
+          </ul>
+          <strong>Example:</strong> <code>kat</code> → edit distance 1 from <code>cat</code> (k→c)
+        </p>
 
       </div>
 
