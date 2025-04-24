@@ -222,3 +222,73 @@ html{
   background-color: #ff6a00;
   color: white;
 }
+.trie-explanation {
+  padding: 20px;
+  color: #333;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.trie-explanation h2,
+.trie-explanation h3 {
+  color: #3f51b5;
+  margin-top: 1.5rem;
+}
+
+.trie-explanation ul {
+  padding-left: 20px;
+}
+
+.trie-tree {
+  display: flex;
+  justify-content: center;
+  gap: 60px;
+  margin-top: 20px;
+  position: relative;
+  flex-wrap: wrap;
+}
+
+.node {
+  background-color: #e3f2fd;
+  border: 2px solid #2196f3;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  line-height: 60px;
+  text-align: center;
+  font-weight: bold;
+  color: #1565c0;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease;
+  position: relative;
+  z-index: 2;
+}
+
+.node:hover {
+  transform: scale(1.1);
+  background-color: #bbdefb;
+}
+
+.branch {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.branch::before {
+  content: '';
+  width: 2px;
+  height: 40px;
+  background-color: #64b5f6;
+  position: absolute;
+  top: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+}
+
+.leaf {
+  background-color: #c8e6c9;
+  border-color: #43a047;
+  color: #2e7d32;
+}

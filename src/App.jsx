@@ -154,6 +154,58 @@ const App = () => {
           )}
         </div>
       </div>
+      <div className="trie-explanation">
+        <h2>🔍 How Trie-Based Spell Checker Works</h2>
+        <p>
+          This spell checker uses a <strong>Trie</strong> (Prefix Tree) to efficiently store and query words across multiple languages. As you type, the system breaks input into words and checks whether each word exists in the language-specific Trie structure.
+        </p>
+        <p>
+          If a word is not found, it performs a <strong>Levenshtein Edit Distance</strong> traversal through the Trie to find the closest alternatives. This helps suggest possible corrections even for heavily misspelled words.
+        </p>
+        
+        <h3>🧬 Edit Distance using Trie</h3>
+        <p>
+          The Trie allows us to do a **dynamic programming**-based edit distance traversal. At each node, we compute the cost of:
+          <ul>
+            <li>➕ Insertion</li>
+            <li>❌ Deletion</li>
+            <li>✏️ Substitution</li>
+            <li>✅ Match</li>
+          </ul>
+          This drastically reduces the number of computations by pruning irrelevant branches.
+        </p>
+
+        <h3>🌐 Dictionary Sources</h3>
+        <ul>
+          <li>📘 English: SCOWL & Hunspell Dictionary</li>
+          <li>📕 Hindi: AI4Bharat, CFILT IIT Bombay corpora</li>
+          <li>📗 Bengali: OpenSubtitles, Indic NLP Corpora</li>
+          <li>📙 Manipuri: Wiktionary dump + community contributions</li>
+        </ul>
+
+        <h3>🌲 Example Trie Tree</h3>
+        <div className="trie-tree">
+          <div className="node root">""</div>
+          <div className="branch">
+            <div className="node">c</div>
+            <div className="branch">
+              <div className="node">a</div>
+              <div className="branch">
+                <div className="node leaf">t 🐱</div>
+              </div>
+            </div>
+          </div>
+          <div className="branch">
+            <div className="node">d</div>
+            <div className="branch">
+              <div className="node">o</div>
+              <div className="branch">
+                <div className="node leaf">g 🐶</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
 
       {/* Footer */}
