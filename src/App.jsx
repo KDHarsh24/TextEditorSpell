@@ -155,7 +155,6 @@ const App = () => {
         </div>
       </div>
 
-      <TrieAnimation/>
 
       {/* Footer */}
       <footer className="footer">
