@@ -182,7 +182,7 @@ const App = () => {
           <li>📙 Manipuri: Wiktionary dump + community contributions</li>
         </ul>
 
-        
+        <div className="bottom-text">
         <h3>🌲 Visual Trie Tree with Edit Distance</h3>
         <p>Let's visualize a small Trie with the words: <strong>car</strong>, <strong>cat</strong>, <strong>cap</strong>, and <strong>bat</strong>. When you type a word, the algorithm walks through this tree to find closest matches using edit distance.</p>
 
@@ -227,7 +227,7 @@ const App = () => {
             </div>
           </div>
         </div>
-
+        </div>
         <h4>🧠 Edit Distance Traversal</h4>
         <p>
           Suppose you typed <code>kat</code>. It's not found, so we traverse this Trie by checking all nodes and calculate edit distance at each branch.
