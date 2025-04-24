@@ -99,7 +99,61 @@ const App = () => {
     // Restore normal text
     editorRef.current.innerHTML = editorRef.current.textContent;
   };
+  const [animationStep, setAnimationStep] = useState(0);
+  // const [trieNodes, setTrieNodes] = useState([]);
+  
+  useEffect(() => {
+    const timer = setInterval(() => {
+      if (animationStep < 5) {
+        setAnimationStep(prevStep => prevStep + 1);
+      }
+    }, 1500); // Adjust the interval to control speed of animation
+    
+    return () => clearInterval(timer); // Clean up timer on unmount
+  }, [animationStep]);
 
+  const renderTrieAnimation = () => {
+    switch (animationStep) {
+      case 1:
+        return <div className="trie-node">Root</div>;
+      case 2:
+        return (
+          <>
+            <div className="trie-node">Root</div>
+            <div className="trie-node">R</div>
+          </>
+        );
+      case 3:
+        return (
+          <>
+            <div className="trie-node">Root</div>
+            <div className="trie-node">R</div>
+            <div className="trie-node">Re</div>
+          </>
+        );
+      case 4:
+        return (
+          <>
+            <div className="trie-node">Root</div>
+            <div className="trie-node">R</div>
+            <div className="trie-node">Re</div>
+            <div className="trie-node">Rep</div>
+          </>
+        );
+      case 5:
+        return (
+          <>
+            <div className="trie-node">Root</div>
+            <div className="trie-node">R</div>
+            <div className="trie-node">Re</div>
+            <div className="trie-node">Rep</div>
+            <div className="trie-node">Repa</div>
+          </>
+        );
+      default:
+        return <div className="trie-node">Root</div>;
+    }
+  };
   return (
     <div className="container">
       {/* Navbar */}
@@ -154,12 +208,28 @@ const App = () => {
         </div>
       </div>
 
-      {/* Bottom Text Below Textbox */}
+      {/* Trie Animation Section */}
+      <div className="trie-animation-container">
+        <h3>Trie Animation</h3>
+        <div className="trie-animation">{renderTrieAnimation()}</div>
+      </div>
+
+      {/* Bottom Text with Explanation */}
       <div className="bottom-text">
         <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum fermentum erat non velit tincidunt, eu elementum elit molestie. Mauris luctus, metus at condimentum sodales, ligula orci sodales sapien, nec tincidunt metus urna at erat. Nam nec purus et urna ultrices scelerisque. Donec vitae erat non mi dictum auctor vel a est. In eget massa lorem. Vivamus tristique diam ut metus tincidunt, sed facilisis libero hendrerit. Suspendisse vel nibh nec mauris consequat rhoncus. Duis eget dui eget sapien euismod pretium. Sed accumsan pharetra ipsum, non volutpat lacus tempor non.
+          A **Trie** is a tree-like data structure that is primarily used for storing strings, like words in a dictionary. It allows us to efficiently check if a word exists, find its closest matches, and find spelling corrections. Each node in a Trie represents a character, and words are stored by traversing these nodes character by character.
 
-        Curabitur vehicula felis in fermentum ultricies. Proin scelerisque, velit eget feugiat vehicula, urna metus fringilla ligula, eget hendrerit neque mauris ut erat. Etiam et ligula venenatis, aliquet ligula ut, consectetur felis. Sed nec justo in dui tincidunt tincidunt. Nam suscipit vehicula magna, ac suscipit sapien tincidunt nec. Donec eu tortor feugiat, laoreet nisl ut, suscipit libero. Nulla ultricies justo in justo sodales, vel vulputate libero accumsan. Fusce auctor, nisl in mattis fermentum, risus augue tempor magna, id faucibus tortor metus ac nunc. Phasellus nec nisi ut elit vehicula venenatis.
+          When a word is typed, we start from the root and move down the tree based on the characters of the word. If we reach the end of the word and the node is marked as an **end-of-word** node, we know that the word exists in the Trie.
+
+          For the **Spell Checker**, the **Trie** helps us find potential spelling errors quickly by comparing each word against the dictionary stored in the Trie. If a word does not match any path in the Trie, it is considered an incorrect word, and we provide suggestions for similar words using algorithms like **Levenshtein Distance**.
+
+          As you type, we analyze the words using a combination of the Trie structure and spell-checking algorithms. If a word has a close match in the Trie, it is highlighted as a potential correction. The spell checker can suggest multiple similar words based on the current language (e.g., English, Hindi, Bengali, Manipuri). The words can then be replaced with a click of a button.
+
+          This method is fast and efficient, especially when dealing with large dictionaries, as the Trie allows us to check each character in constant time.
+
+          The dictionary used in this implementation is sourced from trusted open-source word lists for each language supported. Additionally, **Levenshtein Distance** is used to suggest words that are similar to the incorrect word, based on the number of character edits needed to convert one word into another.
+
+          🔧 This spell checker uses different APIs such as **Trie Skips**, **SymSpell**, and **PySpell** to enhance its accuracy and efficiency.
         </p>
       </div>
 
